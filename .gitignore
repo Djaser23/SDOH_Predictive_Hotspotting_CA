@@ -90,3 +90,5 @@ data/processed/
 # IDE
 .vscode/
 .idea/
+
+data/raw/
