@@ -1,9 +1,12 @@
 
 # Data Dictionary
 
-This dictionary describes `acs5_2023_tract_CA_clean.csv` (ACS variables only). PLACES health measures will be documented once the final modeling file is built.
+This dictionary describes `sdoh_merged_CA.csv`, the merged tract-level file produced by `02_cleaning`. It has 9,070 California census tracts (one row per tract) and 75 columns. The ACS columns come first, followed by the CDC PLACES health measures. The two sources are joined on `GEOID`.
 
-Source: U.S. Census Bureau, American Community Survey 5-year estimates (2023), California census tracts. One row per tract. Variable labels: https://api.census.gov/data/2023/acs/acs5/variables.html
+Sources:
+- U.S. Census Bureau, American Community Survey 5-year estimates (2023). Variable labels: https://api.census.gov/data/2023/acs/acs5/variables.html
+- CDC PLACES, census tract data, 2025 release (dataset `cwsq-ngmh`). Methodology: https://www.cdc.gov/places/methodology/index.html
+
 
 | Column | Census code | Group | Description | Unit |
 |---|---|---|---|---|
@@ -58,3 +61,47 @@ Source: U.S. Census Bureau, American Community Survey 5-year estimates (2023), C
 - Census placeholder values such as `-666666666` mean "not available" and are replaced with missing values during cleaning: 126 tracts for median income, 301 for median rent, and 51 for median age.
 - All estimates carry a margin of error that is not included in this file.
 - 140 tracts have median household income capped at $250,001 and are flagged in the `income_topcoded` column.
+
+## CDC PLACES health measures
+
+Source: CDC PLACES, census tract data, 2025 release (dataset `cwsq-ngmh`). Values are model-based estimates of crude prevalence (not age-adjusted), mostly from 2023 BRFSS data. Column names are the lowercase PLACES `measureid`. Ten of the 40 measures are dropped in `02_cleaning` (see that notebook for reasons).
+
+| Column | PLACES ID | Category | Description | Unit |
+|---|---|---|---|---|
+| bphigh | BPHIGH | Health Outcomes | High blood pressure among adults | percent of adults |
+| cancer | CANCER | Health Outcomes | Cancer (non-skin) or melanoma among adults | percent of adults |
+| casthma | CASTHMA | Health Outcomes | Current asthma among adults | percent of adults |
+| chd | CHD | Health Outcomes | Coronary heart disease among adults | percent of adults |
+| copd | COPD | Health Outcomes | Chronic obstructive pulmonary disease among adults | percent of adults |
+| depression | DEPRESSION | Health Outcomes | Depression among adults | percent of adults |
+| diabetes | DIABETES | Health Outcomes | Diagnosed diabetes among adults | percent of adults |
+| obesity | OBESITY | Health Outcomes | Obesity among adults | percent of adults |
+| stroke | STROKE | Health Outcomes | Stroke among adults | percent of adults |
+| teethlost | TEETHLOST | Health Outcomes | All teeth lost among adults aged 65 and over | percent of adults 65+ |
+| binge | BINGE | Health Risk Behaviors | Binge drinking among adults | percent of adults |
+| csmoking | CSMOKING | Health Risk Behaviors | Current cigarette smoking among adults | percent of adults |
+| lpa | LPA | Health Risk Behaviors | No leisure-time physical activity among adults | percent of adults |
+| sleep | SLEEP | Health Risk Behaviors | Short sleep duration among adults | percent of adults |
+| access2 | ACCESS2 | Prevention | Current lack of health insurance among adults aged 18-64 | percent of adults 18-64 |
+| checkup | CHECKUP | Prevention | Routine doctor checkup within the past year among adults | percent of adults |
+| dental | DENTAL | Prevention | Visited a dentist or dental clinic in the past year among adults | percent of adults |
+| ghlth | GHLTH | Health Status | Fair or poor self-rated health among adults | percent of adults |
+| mhlth | MHLTH | Health Status | Frequent mental distress among adults | percent of adults |
+| phlth | PHLTH | Health Status | Frequent physical distress among adults | percent of adults |
+| cognition | COGNITION | Disability | Cognitive disability among adults | percent of adults |
+| mobility | MOBILITY | Disability | Mobility disability among adults | percent of adults |
+| selfcare | SELFCARE | Disability | Self-care disability among adults | percent of adults |
+| emotionspt | EMOTIONSPT | Health-Related Social Needs | Lack of social and emotional support among adults | percent of adults |
+| foodinsecu | FOODINSECU | Health-Related Social Needs | Food insecurity in the past 12 months among adults | percent of adults |
+| foodstamp | FOODSTAMP | Health-Related Social Needs | Received food stamps in the past 12 months among adults | percent of adults |
+| housinsecu | HOUSINSECU | Health-Related Social Needs | Housing insecurity in the past 12 months among adults | percent of adults |
+| lacktrpt | LACKTRPT | Health-Related Social Needs | Lack of reliable transportation in the past 12 months among adults | percent of adults |
+| loneliness | LONELINESS | Health-Related Social Needs | Loneliness among adults | percent of adults |
+| shututility | SHUTUTILITY | Health-Related Social Needs | Threat of utility shut-off in the past 12 months among adults | percent of adults |
+
+**Notes**
+
+- `teethlost` is missing for 3 tracts (9,067 of 9,070 have values).
+- `access2` and `teethlost` use age-restricted populations (18-64 and 65+), so their denominators differ from the other measures.
+- The social needs measures stay in the file but are not used as predictors or outcomes.
+- `teethlost`, `sleep`, and `dental` use 2022 BRFSS data. All other measures use 2023. (Source: the `year` column in the raw PLACES file.)
