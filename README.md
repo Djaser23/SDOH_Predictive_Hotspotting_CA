@@ -37,4 +37,5 @@ How well can tract-level socioeconomic and housing measures from the American Co
 
 ## Data Dictionary
 
-Column definitions, units, and notes on data quality are in [data_dictionary.md](data_dictionary.md). The dictionary currently covers the ACS columns only. PLACES measures will be documented once the final modeling file is built.
+Column definitions, units, and notes on data quality for both the ACS and CDC PLACES columns are in [data_dictionary.md](data_dictionary.md).
+
