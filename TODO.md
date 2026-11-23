@@ -9,8 +9,12 @@
 - [ ] Revisit tract 06071012202 (San Bernardino)
 - [ ] Yuba 410.02: 190 of 225 renter households not computed. Cause unverified (Beale AFB is a guess)
 
-## Data / extraction
-- [ ] Optionally pull B25070_011E to verify the rent "not computed" gap directly
+
+## Possible extraction additions (decide later)
+
+- [ ] B25070_011E: rent burden "Not computed" count. Would verify the gap between renter_hh_total and the sum of the nine brackets (median gap 21, max 541). Includes households paying no cash rent.
+- [ ] B25004_006E: vacant units held for seasonal, recreational, or occasional use. Check done: 27 tracts with vacancy over 70% are mostly in mountain and resort counties (Placer, El Dorado, Nevada, Mono, Calaveras, Tuolumne, San Bernardino), with median incomes of about $40k to $204k. Worth pulling.
+- [ ] MOE columns (same codes ending in M instead of E): margins of error at 90% confidence. At minimum, pull them for the variables behind the five rates. Would show how uncertain extreme tracts are, for example Imperial 104.01 (B23025_005M).
 
 ## Documentation
 - [ ] 02_cleaning: disability drop reasoning is inconsistent (drops 4 disability measures, keeps cognition, mobility, selfcare). Drop those too or reword
@@ -22,3 +26,5 @@
 
 ## Later
 - [ ] Random forest with county-grouped train/test split, SHAP, circularity caution
+
+
